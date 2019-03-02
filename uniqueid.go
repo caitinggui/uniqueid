@@ -11,7 +11,7 @@ import (
 const (
 	nano              = 1000 * 1000 // 纳秒转为毫秒
 	BitLenTime        = 41          // 41位存时间戳，大约可用69年
-	BitLenWorker      = 11          // 11位存机器id
+	BitLenWorker      = 10          // 11位存机器id
 	BitLenReserve     = 2           // 2位预留，可用于业务编码
 	BitLenAbnormality = 2           // 2位用于时间回退等异常情况，运行时可恢复
 	BitLenSequence    = 8           // 8位用户1毫秒内的递增值，意味着系统1s内并发在(2^8-1)*1000=255000

@@ -25,13 +25,6 @@ var (
 
 )
 
-// 配置
-type Settings struct {
-	WorkerId  uint16 // 机器id
-	ReserveId uint8  // 预留的值，可以是业务编码
-
-}
-
 type UniqueId struct {
 	mutex     *sync.Mutex
 	startTime int64
@@ -128,19 +121,20 @@ func Prase(uid uint64) map[string]uint64 {
 }
 
 // 返回id生成器的实例
-func NewUniqueId(st Settings) *UniqueId {
+// 配置 WorkerId 机器id; ReserveId 预留的值，可以是业务编码
+func NewUniqueId(WorkerId uint16, ReserveId uint8) *UniqueId {
 	var (
 		sf           UniqueId
 		maxWorkerId  uint16 = 1<<BitLenWorker - 1
 		maxReserveId uint8  = 1<<BitLenReserve - 1
 	)
 	// 参数不合法
-	if st.WorkerId > maxWorkerId || st.ReserveId > maxReserveId {
+	if WorkerId > maxWorkerId || ReserveId > maxReserveId {
 		panic("invalid parameter")
 
 	}
-	sf.workerId = st.WorkerId
-	sf.reserveId = st.ReserveId
+	sf.workerId = WorkerId
+	sf.reserveId = ReserveId
 	sf.lastTime = currentMillisecond()
 	sf.mutex = new(sync.Mutex)
 	return &sf
